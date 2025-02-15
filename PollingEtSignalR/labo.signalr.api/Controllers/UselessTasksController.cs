@@ -10,6 +10,11 @@ using labo.signalr.api.Models;
 
 namespace labo.signalr.api.Controllers
 {
+    public class UselessTaskDTO
+    {
+        public string taskText { get; set; } = null!;
+    }
+
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UselessTasksController : ControllerBase
@@ -28,11 +33,11 @@ namespace labo.signalr.api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UselessTask>> Add(string taskText)
+        public async Task<ActionResult<UselessTask>> Add([FromBody] UselessTaskDTO task)
         {
             UselessTask uselessTask = new UselessTask() {
                 Completed = false,
-                Text = taskText
+                Text = task.taskText
             };
             _context.UselessTasks.Add(uselessTask);
             await _context.SaveChangesAsync();
